@@ -1,14 +1,44 @@
-export default function Counter(){
-    // create method here
+import { useState } from 'react'
+import './Counter.css'
+import {PropTypes} from 'prop-types'
+import CounterButton from './CounterButton'
 
-    function incrementCounterFunction(){
-        console.log('increament cliked')
+export default function Counter(){
+    const [count, setCount] = useState(0);
+
+    // calling parent componenet -> moving state up
+    function  incrementCounterParentFunction(by){
+        setCount( count + by)
+    }
+    function  decrementCounterParentFunction(by){
+        setCount( count - by)
+    }
+    function someMethodParent(){
+        console.log('parent method called')
     }
 
+    function resetCounter(){
+        setCount(0)
+    }
     return(
-        <div className="Counter">
-            <span className="count">0</span>
-            <button className="counterButton" onClick={incrementCounterFunction}>increment</button>
-        </div>
+        <>
+            <span className="totalCount">{count}</span>
+            {/* some method to pass reference */}
+            <CounterButton by={1} someMethodParent={someMethodParent}
+                incrementCounterParentFunction={incrementCounterParentFunction}
+                decrementCounterParentFunction ={decrementCounterParentFunction}
+                />
+            <CounterButton by={2}
+            incrementCounterParentFunction={incrementCounterParentFunction}
+            decrementCounterParentFunction ={decrementCounterParentFunction}
+            />
+            <CounterButton by={5}
+            incrementCounterParentFunction={incrementCounterParentFunction}
+            decrementCounterParentFunction ={decrementCounterParentFunction}
+            />
+            <button className="resetButton" onClick={resetCounter}>
+                Reset
+            </button>
+        </>
     )
 }
