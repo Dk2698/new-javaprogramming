@@ -1,12 +1,25 @@
 import { useState } from 'react'
+import { BrowserRouter,Routes , Route, useNavigate, useParams, Link} from 'react-router-dom'
 import './TodoApp.css'
 
 export default function TodoApp() {
     return (
         <div className="TodoApp" style={{ textAlign: "center" }}>
-            Todo Mangement Aplication
-            <LoginComponent />
-            <WelcomeComponent/>
+            {/* Todo Mangement Aplication */}
+            <HeaderComponent/>
+
+            <BrowserRouter>
+                <Routes>
+                    <Route path='' element={<LoginComponent />}></Route>
+                    <Route path='/login' element={<LoginComponent />}></Route>
+                    <Route path='/welcome/:username' element={<WelcomeComponent/>}></Route>
+                    <Route path='/todos' element={<ListTodosComponent/>}/>
+                    <Route path='/logout' element={<LogoutComponent/>}/>
+                    <Route path='*' element={<ErrorComponent/>}></Route>
+                </Routes>
+            </BrowserRouter>  
+
+            <FooterComponent/>          
         </div>
     )
 }
@@ -22,7 +35,7 @@ function LoginComponent() {
     const [showErrorMessage, setshowErrorMessage] = useState(false)
 
 
-
+    const  navigate = useNavigate();
 
     function handlerUsernameChange(event) {
         //     console.log(event)
@@ -43,6 +56,9 @@ function LoginComponent() {
             console.log("Success")
             setShowSuccessMessage(true);
             setshowErrorMessage(false)
+            // navigate('/welcome/kumar')
+            navigate(`/welcome/${username}`)
+
         }else{
             console.log("Faild")
             setShowSuccessMessage(false);
@@ -67,6 +83,7 @@ function LoginComponent() {
             {/* <div className="errorMessage">Authenticated Failed, Please check your credntials</div> */}
             {/* <SuccessMessageComponent/>
             <ErrorMessageComponent/> */}
+            <h1>Welcome Login</h1>
             {showSuccessMessage && <div className="successMessage">Authenticated Successfully</div>}
             {showErrorMessage &&  <div className="errorMessage">Authenticated Failed, Please check your credntials</div> }
             <div className="LoginForm">
@@ -95,9 +112,105 @@ function LoginComponent() {
 
 
 function WelcomeComponent() {
+    const paramas = useParams()
+    // console.log(paramas)
+    console.log(paramas.username)
+    const {username} = useParams()
+
+
     return (
-        <div className="Welcome">
-            Welcome Component
+        <div className="WelcomeComponent">
+            <h1>Welcome {username}</h1>
+            <div>
+                Manage yours todos -
+                {/* <a href="/todos"> go here </a> */}
+                <Link to="/todos"> go here </Link>
+
+            </div>
+        </div>
+    )
+}
+
+function ErrorComponent() {
+    return (
+        <div className="ErrorComponent">
+            <h1>we are wotking hard!!</h1> 
+            <div>
+                Applogies for the 404, reach out to our at ABC
+            </div>
+        </div>
+    )
+}
+
+function LogoutComponent() {
+    return (
+        <div className="LogoutComponent">
+            <h1> You are logged out!!</h1> 
+            <div>
+                Thank you are using our App. Come back soon
+            </div>
+        </div>
+    )
+}
+
+function HeaderComponent() {
+    return (
+        <div className="HeaderComponent">
+           Header <hr />
+        </div>
+    )
+}
+
+
+function FooterComponent() {
+    return (
+        <div className="FooterComponent">
+            <hr /> Footer
+        </div>
+    )
+}
+function ListTodosComponent(){
+    const today  = new Date();
+
+    const targetDate = new Date(today.getFullYear() + 12, today.getMonth, today.getDay())
+    const todos =[
+        {id:1, description:"learn aws", done: false, targetDate: targetDate},
+        {id:2, description:"learn spring", done: false, targetDate: targetDate},
+        {id:3, description:"learn devops", done: false, targetDate: targetDate},
+        {id:4, description:"learn python", done: false, targetDate: targetDate},
+    ]
+
+    return(
+        <div className="container">
+            <h1> things You want to do</h1>
+            <div>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <td>Id</td>
+                            <td>Description</td>
+                            <td>Is Done</td>
+                            <td>Target Date</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* map to use in jsx */}
+                        {
+                            todos.map(
+                                todo => (
+                                    <tr key={todo.id}>
+                                        <td>{todo.id}</td>
+                                        <td>{todo.description}</td>
+                                        <td>{todo.done.toString()}</td>
+                                        <td>{todo.targetDate.toDateString()}</td>
+                                    </tr>
+                                )
+                            )
+                        }
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }
