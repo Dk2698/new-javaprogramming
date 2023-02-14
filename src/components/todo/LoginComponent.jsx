@@ -27,7 +27,7 @@ function LoginComponent() {
         setPassword(event.target.value)
     }
 
-    function handleSubmit(){
+    function handleSubmit1(){
         // console.log(username);
         // console.log(password);
         if(username === "kumar" && password === "12345"){
@@ -42,6 +42,20 @@ function LoginComponent() {
             authContext.setAuthenticated(false)
             console.log("Faild")
             setShowSuccessMessage(false);
+            setshowErrorMessage(true)
+        }
+    }
+
+    function handleSubmit(){
+
+        if(authContext.login(username ,password)){
+            // setShowSuccessMessage(true);
+            // setshowErrorMessage(false)
+            // navigate('/welcome/kumar')
+            navigate(`/welcome/${username}`)
+
+        }else{
+            // setShowSuccessMessage(false);
             setshowErrorMessage(true)
         }
     }
@@ -67,7 +81,7 @@ function LoginComponent() {
             {/* <SuccessMessageComponent/>
             <ErrorMessageComponent/> */}
             <h1>Welcome Login</h1>
-            {showSuccessMessage && <div className="successMessage">Authenticated Successfully</div>}
+            {/* {showSuccessMessage && <div className="successMessage">Authenticated Successfully</div>} */}
             {showErrorMessage &&  <div className="errorMessage">Authenticated Failed, Please check your credntials</div> }
             <div className="LoginForm">
                 <div>

@@ -23,17 +23,17 @@ export default function AuthProvider({ children }) {
 
     const [token, setToken] = useState(null)
 
-    // function login(username, password) {
-    //     if(username==='in28minutes' && password==='dummy'){
-    //         setAuthenticated(true)
-    //         setUsername(username)
-    //         return true            
-    //     } else {
-    //         setAuthenticated(false)
-    //         setUsername(null)
-    //         return false
-    //     }        
-    // }
+    function login(username, password) {
+        if(username==='kumar' && password==='12345'){
+            setAuthenticated(true)
+            setUsername(username)
+            return true            
+        } else {
+            setAuthenticated(false)
+            setUsername(null)
+            return false
+        }        
+    }
 
     // async function login(username, password) {
 
@@ -103,12 +103,7 @@ export default function AuthProvider({ children }) {
 
 
     function logout() {
-        // setAuthenticated(false)
-        // setToken(null)
-        // setUsername(null)
-    }
-    function login() {
-        // setAuthenticated(false)
+        setAuthenticated(false)
         // setToken(null)
         // setUsername(null)
     }
