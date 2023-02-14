@@ -7,12 +7,13 @@ import ListTodosComponent from './ListTodosComponent'
 import LogoutComponent from './LogoutComponent'
 import ErrorComponent from './ErrorComponent'
 import FooterComponent from './FooterComponent'
+import AuthProvider from './security/AuthContext'
 
 export default function TodoApp() {
     return (
         <div className="TodoApp" style={{ textAlign: "center" }}>
             {/* Todo Mangement Aplication */}
-
+            <AuthProvider>
             <BrowserRouter>
                 <HeaderComponent/>
                     <Routes>
@@ -25,9 +26,9 @@ export default function TodoApp() {
                         <Route path='*' element={<ErrorComponent/>}></Route>
 
                     </Routes>
-                <FooterComponent/>          
+                {/* <FooterComponent/>           */}
             </BrowserRouter>  
-
+            </AuthProvider>
         </div>
     )
 }
